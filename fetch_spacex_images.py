@@ -7,11 +7,10 @@ import os
 def fetch_spacex_images(id):
     response = requests.get(f'https://api.spacexdata.com/v5/launches/{id}')
     response.raise_for_status()
-    for number, link in enumerate(
-        response.json()['links']['flickr']['original'],
-            start=1):
+    image_links = response.json()['links']['flickr']['original']
+    for number, link in enumerate(image_links, start=1):
         extension = gen_func.get_image_extension(link)
-        gen_func.image_downloading(link, os.path.join(
+        gen_func.download_image(link, os.path.join(
                                     'Images', f'spacex_{number}{extension}'))
 
 
